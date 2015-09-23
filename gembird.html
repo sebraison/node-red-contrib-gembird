@@ -1,0 +1,57 @@
+<!--
+ Copyright 2015 Sébastien Raison <sebastien.raison@l-rd.fr>
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<script type="text/javascript">
+    RED.nodes.registerType('gembird', {
+        category: 'automation',
+        color: '#c0c0c0',
+        defaults: {
+            name: {value: ""},
+            deviceid: {value: 0, validate: RED.validators.number()}
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "gembird.png",
+        label: function () {
+            return this.name || "gembird";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="gembird">
+    <div class="form-row">
+    <label for="node-input-name"><i class="icon-tag"></i>Name</label>
+    <input type="text" id="node-input-name" placeholder="Gembird">
+    </div>
+    <div class="form-row">
+    <label for="node-input-deviceid"><i class="icon-tag"></i>Device ID</label>
+    <input type="text" id="node-input-deviceid" value="0">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="gembird">
+    <p>A simple node that sends orders to <a href="http://www.gembird.nl">Gembird</a> USB programmable devices.
+    It uses the <a href="http://sispmctl.sourceforge.net/">sispmctl</a> command line tool as backend.</p>
+    <p>To activate a socket, send <b>msg.topic:ON</b> and <b>msg.payload:n</b> with <b>n</b> the socket number
+    or <b>all</b> to apply to all sockets.</p>
+    <p>Others commands are <b>OFF</b> and <b>STATUS</b>.
+    At this time no support for planning but you shouldn't need that with Node-Red features ...</p>
+    <p>All commands return the status of the command in topic, usually <b>OK</b> but can be <b>ERROR</b> if something gone wrong.
+    The payload contains the status of each socket, as an array of booleans.</p>
+    <p>Do not modify the Device ID in configuration tab unless you have more than one device.
+    This node probably contains bugs, as it has been only tested with one 4 sockets SiS-PM device.</p>
+</script>
+
